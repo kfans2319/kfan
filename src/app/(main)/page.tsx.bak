@@ -1,0 +1,62 @@
+"use client";
+
+import PostEditor from "@/components/posts/editor/PostEditor";
+import TrendsSidebar from "@/components/TrendsSidebar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import FollowingFeed from "./FollowingFeed";
+import ForYouFeed from "./ForYouFeed";
+import { useEffect, useState } from "react";
+
+export default function Home() {
+  // Generate a unique key when component mounts to ensure fresh feed
+  const [feedKey, setFeedKey] = useState<string>(Date.now().toString());
+  const [selectedTab, setSelectedTab] = useState<string>("for-you");
+
+  // Detect if this is the initial page load after login
+  useEffect(() => {
+    // Use localStorage to detect if this is a fresh login
+    const lastVisitTime = localStorage.getItem('last_visit_time');
+    const currentTime = Date.now();
+    
+    // If there's no last visit or it was more than 30 minutes ago, treat as fresh login
+    if (!lastVisitTime || (currentTime - parseInt(lastVisitTime)) > 30 * 60 * 1000) {
+      console.log("Fresh visit detected, refreshing feed");
+      
+      // Schedule a feed refresh after a short delay to allow auth to complete
+      const timer = setTimeout(() => {
+        setFeedKey(currentTime.toString());
+      }, 500);
+      
+      return () => clearTimeout(timer);
+    }
+    
+    // Update the last visit time
+    localStorage.setItem('last_visit_time', currentTime.toString());
+  }, []);
+
+  // Handle tab changes
+  const handleTabChange = (value: string) => {
+    setSelectedTab(value);
+  };
+
+  return (
+    <main className="flex w-full min-w-0 gap-5">
+      <div className="w-full min-w-0 space-y-5">
+        <PostEditor />
+        <Tabs defaultValue="for-you" onValueChange={handleTabChange}>
+          <TabsList>
+            <TabsTrigger value="for-you">For you</TabsTrigger>
+            <TabsTrigger value="following">Following</TabsTrigger>
+          </TabsList>
+          <TabsContent value="for-you">
+            <ForYouFeed key={`for-you-${feedKey}`} />
+          </TabsContent>
+          <TabsContent value="following">
+            <FollowingFeed key={`following-${feedKey}`} />
+          </TabsContent>
+        </Tabs>
+      </div>
+      <TrendsSidebar />
+    </main>
+  );
+}

@@ -1,0 +1,225 @@
+# Instructions
+
+During your interaction with the user, if you find anything reusable in this project (e.g. version of a library, model name), especially about a fix to a mistake you made or a correction you received, you should take note in the `Lessons` section in the `.cursorrules` file so you will not make the same mistake again. Please do not delete, edit or create .env files. if you need to add something into the .env file tell me what to add and i will copy and paste it in myself.
+
+You should also use the `.cursorrules` file as a Scratchpad to organize your thoughts. Especially when you receive a new task, you should first review the content of the Scratchpad, clear old different task if necessary, first explain the task, and plan the steps you need to take to complete the task. You can use todo markers to indicate the progress, e.g.
+[X] Task 1
+[ ] Task 2
+
+Also update the progress of the task in the Scratchpad when you finish a subtask.
+Especially when you finished a milestone, it will help to improve your depth of task accomplishment to use the Scratchpad to reflect and plan.
+The goal is to help you maintain a big picture as well as the progress of the task. Always refer to the Scratchpad when you plan the next step.
+
+# Tools
+
+Note all the tools are in python. So in the case you need to do batch processing, you can always consult the python files and write your own script.
+
+## Screenshot Verification
+
+The screenshot verification workflow allows you to capture screenshots of web pages and verify their appearance using LLMs. The following tools are available:
+
+1. Screenshot Capture:
+```bash
+venv/bin/python tools/screenshot_utils.py URL [--output OUTPUT] [--width WIDTH] [--height HEIGHT]
+```
+
+2. LLM Verification with Images:
+```bash
+venv/bin/python tools/llm_api.py --prompt "Your verification question" --provider {openai|anthropic} --image path/to/screenshot.png
+```
+
+Example workflow:
+```python
+from screenshot_utils import take_screenshot_sync
+from llm_api import query_llm
+
+# Take a screenshot
+
+screenshot_path = take_screenshot_sync('https://example.com', 'screenshot.png')
+
+# Verify with LLM
+
+response = query_llm(
+    "What is the background color and title of this webpage?",
+    provider="openai",  # or "anthropic"
+    image_path=screenshot_path
+)
+print(response)
+```
+
+## LLM
+
+You always have an LLM at your side to help you with the task. For simple tasks, you could invoke the LLM by running the following command:
+```
+venv/bin/python ./tools/llm_api.py --prompt "What is the capital of France?" --provider "anthropic"
+```
+
+The LLM API supports multiple providers:
+- OpenAI (default, model: gpt-4o)
+- Azure OpenAI (model: configured via AZURE_OPENAI_MODEL_DEPLOYMENT in .env file, defaults to gpt-4o-ms)
+- DeepSeek (model: deepseek-chat)
+- Anthropic (model: claude-3-sonnet-20240229)
+- Gemini (model: gemini-pro)
+- Local LLM (model: Qwen/Qwen2.5-32B-Instruct-AWQ)
+
+But usually it's a better idea to check the content of the file and use the APIs in the `tools/llm_api.py` file to invoke the LLM if needed.
+
+## Web browser
+
+You could use the `tools/web_scraper.py` file to scrape the web.
+```
+venv/bin/python ./tools/web_scraper.py --max-concurrent 3 URL1 URL2 URL3
+```
+This will output the content of the web pages.
+
+## Search engine
+
+You could use the `tools/search_engine.py` file to search the web.
+```
+venv/bin/python ./tools/search_engine.py "your search keywords"
+```
+This will output the search results in the following format:
+```
+URL: https://example.com
+Title: This is the title of the search result
+Snippet: This is a snippet of the search result
+```
+If needed, you can further use the `web_scraper.py` file to scrape the web page content.
+
+# Lessons
+
+## User Specified Lessons
+
+- You have a python venv in ./venv. Use it.
+- Include info useful for debugging in the program output.
+- Read the file before you try to edit it.
+- Due to Cursor's limit, when you use `git` and `gh` and need to submit a multiline commit message, first write the message in a file, and then use `git commit -F <filename>` or similar command to commit. And then remove the file. Include "[Cursor] " in the commit message and PR title.
+- When implementing financial features like banking information, make sure to include proper admin interfaces to view and manage this data.
+- Maintain visual consistency across related UI components (dashboards, forms, tables) to create a professional and cohesive user experience.
+- When implementing responsive UI designs, use a mobile-first approach with appropriate breakpoints (sm, md, lg). For optimal user experience, adapt layouts (not just sizing) - use cards on mobile instead of tables, simpler navigation patterns, and ensure touch targets are at least 44px tall/wide.
+- For mobile navigation components like tabs or menus, consider using icon-based interfaces with minimal text on very small screens. Use vertical stacking (icon above label) to maximize space and improve readability for critical navigation elements.
+- When designing tab navigation for mobile screens, increase the height of tab buttons (to at least 14px), reduce horizontal padding, use simplified labels, and ensure proper spacing between tabs. Consider using a vertical layout for icons and text to improve touch targets and readability.
+
+## Cursor learned
+
+- For search results, ensure proper handling of different character encodings (UTF-8) for international queries
+- Add debug information to stderr while keeping the main output clean in stdout for better pipeline integration
+- When using seaborn styles in matplotlib, use 'seaborn-v0_8' instead of 'seaborn' as the style name due to recent seaborn version changes
+- Use 'gpt-4o' as the model name for OpenAI's GPT-4 with vision capabilities
+- When using Prisma's _count in select queries, explicitly include all the fields you need to count (e.g., posts, followers) to avoid undefined values that can result in NaN displays
+- In TypeScript, do not include file extensions (.ts, .tsx) in import statements unless the 'allowImportingTsExtensions' option is enabled in tsconfig.json
+- When adding new fields to a Prisma schema, make sure to run `npx prisma generate` to update TypeScript types before using the new fields
+- When adding self-referential relations in Prisma, ensure the field names and relation names are correctly defined to avoid circular references
+- When using Shadcn UI components, make sure all required UI components are created in the components/ui directory before using them in other components
+- When installing npm packages with dependency conflicts, use the --legacy-peer-deps flag to bypass peer dependency requirements
+- When working with Next.js's useSearchParams hook, always handle the case where searchParams might be null using optional chaining or conditional checks
+- Before using Shadcn UI components like Table, create them first using `npx shadcn-ui@latest add table` or manually add the component files to the components/ui directory
+- When working with Prisma Decimal fields in Next.js, always convert them to strings before passing from Server Components to Client Components to avoid serialization errors
+- When implementing financial features with percentage-based calculations, store both the gross amount and the fee amount separately in the database to maintain an audit trail and ensure transparency
+- When working with multiple balance types (e.g., payment balance vs. earnings balance), ensure all API routes and components consistently use the correct balance field for their specific purpose
+- For API routes that make complex database queries, implement a multi-tiered timeout strategy with graceful degradation: use shorter timeouts, break operations into smaller chunks, implement effective caching, exclude non-essential data, and provide fallback responses rather than failing completely
+- When using icon libraries like Lucide React, ensure all icons used in components are explicitly imported, especially when adding new icons during development to prevent runtime "is not defined" errors
+- When dealing with cryptocurrency payments in production applications, always implement proper transaction verification and security measures such as recipient address validation, transaction confirmation, and timeout handling
+- When implementing dropdowns, modals, or popup menus, always include click-outside detection to dismiss them for better UX. This can be implemented using the useRef hook to reference the container element and a useEffect to add a document-level click listener that closes the element when clicks occur outside the referenced element.
+- When implementing wallet connection features for Web3 applications, always provide a way for users to reconnect or switch wallets by using MetaMask's wallet_requestPermissions API, which allows users to select from their available accounts.
+- When implementing payout functionality for multiple payment methods, ensure your schema properly handles different payment types (e.g., bank accounts vs cryptocurrency wallets) with appropriate validation for each method.
+- When implementing a payout rejection flow, always refund the amount back to the user's balance using a database transaction to ensure both the status update and balance adjustment happen atomically.
+- For admin interfaces managing financial transactions, implement proper status workflows that include validations, relevant data display based on payment method, and appropriate actions for each status state.
+- When implementing a profile banner image feature, position the avatar to overlap the bottom edge of the banner for a modern social media appearance, and provide a gradient fallback for users without a banner image.
+- When working with database schema changes that might not be immediately reflected in TypeScript types, use TypeScript workarounds like type assertions (as any) and raw SQL queries to ensure functionality while maintaining type safety elsewhere.
+- For image upload components, implement proper aspect ratio cropping (16:9 for banners, 1:1 for avatars) to ensure consistent visual appearance across the application.
+- When positioning interactive elements (like buttons) on top of banner images or variable-colored backgrounds, use a combination of semi-transparent backgrounds (`bg-background/95`), backdrop blur effects (`backdrop-blur-sm`), and explicit hover states (`hover:opacity-90`) instead of relying on the default component styling to ensure consistent visibility and behavior. Avoid hover effects that change background colors which can make text disappear against certain backgrounds.
+- When implementing user verification systems, enhance security by requiring users to perform random poses in their verification selfies (e.g., "Touch your right ear with your left hand"). This helps prevent fraud by ensuring verification photos are taken in real-time rather than using pre-existing images. Make sure to store the assigned pose and display it in the admin verification interface so admins can confirm the user followed instructions.
+- When implementing authentication-dependent data fetching in React applications, ensure proper auth state synchronization by: 1) Making the query execution conditional with the `enabled` option, 2) Including the authentication state in the query key for reactivity, 3) Adding an explicit refetch trigger when authentication state changes using useEffect, 4) Always sending credentials with API requests, and 5) Adding proper error handling for authentication failures to provide clear feedback to users. This comprehensive approach prevents the common "need to refresh after login" issue by ensuring data fetching respects the authentication lifecycle.
+- When handling fresh login states in web applications, implement a comprehensive solution that includes: 1) Tracking session timestamps to detect fresh logins, 2) Using a ref object for stable state access during async operations, 3) Creating special API routes or endpoints for fresh login requests, 4) Implementing cache-busting for authentication-dependent requests, 5) Using a multi-tiered refetch strategy with immediate refetch for fresh logins, standard refetch for state changes, and automatic retry for auth errors, and 6) Setting proper Next.js cache directives like 'force-dynamic' to prevent stale session data. This approach ensures data loads immediately after login without requiring a page refresh.
+- When fetching nested data for client-side components, implement defensive programming techniques such as: 1) Always include null/undefined checks when accessing nested properties (e.g., `post.likes?.length > 0` instead of `post.likes.length > 0`), 2) Provide fallback defaults for optional data, 3) Ensure API routes include all data needed by client components or provide reasonable defaults, 4) Use TypeScript to properly type optional fields, and 5) Consider implementing a data normalization layer that ensures consistent data shape regardless of the data source. This comprehensive approach prevents runtime errors when data structures change or certain properties are conditionally included.
+- When automating user data imports and content creation in a Next.js + Prisma application, it's better to use Prisma directly rather than working through API routes for bulk operations. This approach is more efficient, avoids the overhead of HTTP requests, and gives you more direct control over the database operations. Additionally, for image uploads in a development/testing environment, consider directly copying files to the public directory and storing the appropriate URLs in the database, rather than using the full upload mechanism which may involve third-party services.
+- When creating subscription tiers for users, implement a tiered pricing structure with different features for each tier. Create a logical progression with increasing prices and durations, where higher-priced tiers have longer subscription periods (e.g., 4-12 months). This strategy increases perceived value and encourages longer-term commitments from premium subscribers.
+- When creating user-generated content in a subscription-based platform, ensure a mix of public and subscriber-only content. This provides free content for marketing and user acquisition while still incentivizing subscriptions for premium content. A good ratio might be 60% public and 40% subscriber-only content.
+
+# Scratchpad
+
+## Current Task: Create Users from Downloads Folder and Upload Their Content
+
+### Task Description
+The task involves creating user accounts and content from data stored in the downloads folder. Each subfolder in the downloads folder represents a user profile, containing:
+1. A profile_data.json file with user information
+2. An images folder with photos to be used for posts, avatar, and banner
+
+For each user profile, the following needs to be done:
+1. Create a new user account with:
+   - Username from the folder name/profile_data.json
+   - Random email (generated)
+   - Password 'trigun1' (same for all users)
+2. Upload images from the images folder:
+   - Use one image for the user's avatar
+   - Use another image for the user's banner
+   - Create posts with the remaining images (mix of public and subscriber-only posts)
+3. Create subscription tiers for each user:
+   - 3 tiers per user (Basic, Premium, VIP)
+   - Random prices ranging from $5 to $50
+   - Higher tiers have longer durations (4-12 months)
+
+### Implementation Plan
+[X] Create a script to process each user folder
+  [X] Parse the downloads directory to get all user folders
+  [X] For each user folder:
+    [X] Read profile_data.json to get user information
+    [X] Generate a random email for the user
+    [X] Create the user account using Prisma directly
+    [X] Process the images folder:
+      [X] Select 2 images: one for avatar, one for banner
+      [X] Store the images locally and update user with image URLs
+      [X] Create posts with the remaining images
+    [X] Create subscription tiers:
+      [X] Basic tier ($5-15, 1-3 months)
+      [X] Premium tier ($16-30, 1-6 months)
+      [X] VIP tier ($31-50, 4-12 months)
+  [X] Add logging for tracking progress and debugging
+  [X] Handle errors and implement retries if needed
+  [X] Add a summary at the end of the process
+  [X] Enhance posts to be a mix of public and subscriber-only (60/40 split)
+
+### Technical Approach
+1. Created a Node.js script that:
+   - Uses Prisma directly for database operations (more efficient than API routes)
+   - Handles file management directly with fs module
+   - Processes users in batches to manage memory and database load
+   - Includes comprehensive error handling
+
+2. For image handling:
+   - Created a simple image processing function that:
+     - Generates unique filenames with UUID
+     - Copies images to the public directory
+     - Creates appropriate URLs that match the UploadThing format
+   - Used the first image for avatar and second for banner
+   - Creates posts with the remaining images, up to 10 per user
+
+3. For subscription tier creation:
+   - Created a tiered pricing structure with logical progression
+   - Implemented random price generation within appropriate ranges
+   - Added longer durations for higher-priced tiers
+   - Used descriptive names and descriptions for each tier
+
+4. For post visibility:
+   - Implemented a random distribution (60% public, 40% subscriber-only)
+   - Added clear logging of post visibility status
+   - Maintained consistent creation process for both types
+
+5. Error handling and optimizations:
+   - Created modular functions with specific error handling
+   - Implemented batching to process users in groups of 5
+   - Added small delays between operations to prevent database overload
+   - Structured to allow partial success when processing multiple users
+
+### Technical Challenges Addressed
+1. Avoided using the web API for better efficiency and direct control
+2. Created a simplified image processing approach that mimics UploadThing
+3. Implemented proper Prisma transactions and connections
+4. Added batching to handle large numbers of users without memory issues
+5. Added detailed logging to track progress and identify issues
+6. Implemented proper Decimal handling for price fields in subscription tiers
+7. Created a realistic mix of public and subscriber-only content
+
+### Previous Tasks
+// ... existing code for previous tasks ...
