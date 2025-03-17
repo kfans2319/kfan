@@ -1,4 +1,4 @@
-import { prisma } from "./prisma";
+import prisma from "./prisma";
 
 /**
  * Check if a user is subscribed to a creator

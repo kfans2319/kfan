@@ -3,7 +3,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { PostsPage } from "@/lib/types";
 import {
   InfiniteData,
-  QueryFilters,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
@@ -19,44 +18,61 @@ export function useSubmitPostMutation() {
   const mutation = useMutation({
     mutationFn: submitPost,
     onSuccess: async (newPost) => {
-      const queryFilter = {
-        queryKey: ["post-feed"],
-        predicate(query) {
-          return (
-            query.queryKey.includes("for-you") ||
-            (query.queryKey.includes("user-posts") &&
-              query.queryKey.includes(user.id))
-          );
-        },
-      } satisfies QueryFilters;
+      // Define query keys we want to update
+      const forYouQueryKey = ["post-feed", "for-you"];
+      const userPostsQueryKey = ["post-feed", "user-posts", user.id];
+      
+      // Cancel queries for both keys
+      await queryClient.cancelQueries({ queryKey: forYouQueryKey });
+      await queryClient.cancelQueries({ queryKey: userPostsQueryKey });
 
-      await queryClient.cancelQueries(queryFilter);
-
+      // Update for-you feed
       queryClient.setQueriesData<InfiniteData<PostsPage, string | null>>(
-        queryFilter,
+        { queryKey: forYouQueryKey },
         (oldData) => {
-          const firstPage = oldData?.pages[0];
-
-          if (firstPage) {
-            return {
-              pageParams: oldData.pageParams,
-              pages: [
-                {
-                  posts: [newPost, ...firstPage.posts],
-                  nextCursor: firstPage.nextCursor,
-                },
-                ...oldData.pages.slice(1),
-              ],
-            };
-          }
+          if (!oldData || !oldData.pages[0]) return oldData;
+          
+          // Create a deep copy to avoid mutation
+          const newData = JSON.parse(JSON.stringify(oldData)) as typeof oldData;
+          
+          // Update the first page with the new post
+          newData.pages[0] = {
+            ...newData.pages[0],
+            posts: [newPost, ...newData.pages[0].posts],
+          };
+          
+          return newData;
+        },
+      );
+      
+      // Update user posts feed
+      queryClient.setQueriesData<InfiniteData<PostsPage, string | null>>(
+        { queryKey: userPostsQueryKey },
+        (oldData) => {
+          if (!oldData || !oldData.pages[0]) return oldData;
+          
+          // Create a deep copy to avoid mutation
+          const newData = JSON.parse(JSON.stringify(oldData)) as typeof oldData;
+          
+          // Update the first page with the new post
+          newData.pages[0] = {
+            ...newData.pages[0],
+            posts: [newPost, ...newData.pages[0].posts],
+          };
+          
+          return newData;
         },
       );
 
-      queryClient.invalidateQueries({
-        queryKey: queryFilter.queryKey,
-        predicate(query) {
-          return queryFilter.predicate(query) && !query.state.data;
-        },
+      // Invalidate queries that don't have data yet
+      queryClient.invalidateQueries({ 
+        queryKey: forYouQueryKey,
+        refetchType: 'none'
+      });
+      
+      queryClient.invalidateQueries({ 
+        queryKey: userPostsQueryKey,
+        refetchType: 'none'
       });
 
       toast({

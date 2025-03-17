@@ -1,7 +1,9 @@
 import Stripe from 'stripe';
+import { NextRequest, NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: 'your_stripe_api_version',
+  apiVersion: '2025-02-24.acacia',
 });
 
 export async function createCheckoutSession(amount: number, userId: string) {
@@ -28,8 +30,17 @@ export async function createCheckoutSession(amount: number, userId: string) {
   return session;
 }
 
-export async function handleStripeWebhook(req: NextApiRequest, res: NextApiResponse) {
-  const sig = req.headers['stripe-signature'] as string;
+// Helper function to get the raw request body
+async function buffer(req: NextRequest) {
+  const chunks: Uint8Array[] = [];
+  for await (const chunk of req.body as any) {
+    chunks.push(chunk instanceof Uint8Array ? chunk : Buffer.from(chunk));
+  }
+  return Buffer.concat(chunks);
+}
+
+export async function handleStripeWebhook(req: NextRequest) {
+  const sig = req.headers.get('stripe-signature') as string;
   const rawBody = await buffer(req);
 
   let event: Stripe.Event;
@@ -37,27 +48,44 @@ export async function handleStripeWebhook(req: NextApiRequest, res: NextApiRespo
   try {
     event = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET!);
   } catch (err) {
-    console.error(err);
-    res.status(400).send(`Webhook Error: ${err.message}`);
-    return;
+    const error = err as Error;
+    console.error('Webhook error:', error);
+    return NextResponse.json({ error: `Webhook Error: ${error.message}` }, { status: 400 });
   }
 
   switch (event.type) {
     case 'checkout.session.completed':
       const session = event.data.object as Stripe.Checkout.Session;
       const userId = session.client_reference_id;
-      const amount = session.amount_total / 100; // Convert cents to dollars
+      
+      if (!userId) {
+        console.error('No user ID found in session');
+        return NextResponse.json({ error: 'No user ID found in session' }, { status: 400 });
+      }
+      
+      const amountTotal = session.amount_total;
+      if (amountTotal === null) {
+        console.error('No amount found in session');
+        return NextResponse.json({ error: 'No amount found in session' }, { status: 400 });
+      }
+      
+      const amount = amountTotal / 100; // Convert cents to dollars
 
       // Update user balance in the database
-      await prisma.user.update({
-        where: { id: userId },
-        data: { balance: { increment: amount } },
-      });
+      try {
+        await prisma.user.update({
+          where: { id: userId },
+          data: { balance: { increment: amount } },
+        });
+      } catch (dbError) {
+        console.error('Database error:', dbError);
+        return NextResponse.json({ error: 'Database error' }, { status: 500 });
+      }
 
       break;
     default:
       console.log(`Unhandled event type: ${event.type}`);
   }
 
-  res.json({ received: true });
+  return NextResponse.json({ received: true });
 } 
