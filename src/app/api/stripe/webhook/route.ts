@@ -9,6 +9,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
+// Disable body parsing using modern App Router config
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function POST(request: Request) {
   try {
     const body = await request.text();
@@ -49,11 +53,4 @@ export async function POST(request: Request) {
     console.error("Error processing webhook:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
-}
-
-// Disable body parsing, we need the raw body for signature verification
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-}; 
+} 
