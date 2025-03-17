@@ -5,8 +5,8 @@ import { redirect } from "next/navigation";
 import UserSubscriptionsClient from "@/app/(main)/subscriptions/UserSubscriptionsClient";
 
 export const metadata: Metadata = {
-  title: "Subscription Dashboard | bugbook",
-  description: "Manage your subscriptions to creators on bugbook.",
+  title: "Subscription Dashboard | KinkyFans ",
+  description: "Manage your subscriptions to creators on KinkyFans.",
 };
 
 export default async function SubscriptionsPage() {

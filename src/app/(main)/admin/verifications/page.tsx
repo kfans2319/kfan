@@ -16,7 +16,7 @@ type VerificationType = UserData & {
 };
 
 export const metadata = {
-  title: "Admin Verification Dashboard - Bugbook",
+  title: "Admin Verification Dashboard - KinkyFans",
   description: "Review and approve user identity verification requests",
 };
 

@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import BankingDashboardClient from "./BankingDashboardClient";
 
 export const metadata = {
-  title: "Banking Dashboard - Admin | bugbook",
+  title: "Banking Dashboard - Admin | KinkyFans",
   description: "Manage user banking information for payouts",
 };
 

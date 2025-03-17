@@ -6,7 +6,7 @@ import TrendsSidebar from "@/components/TrendsSidebar";
 import CreatorDashboardClient from "./CreatorDashboardClient";
 
 export const metadata: Metadata = {
-  title: "Creator Dashboard | bugbook",
+  title: "Creator Dashboard | KinkyFans",
   description: "Manage your creator earnings, view subscriber statistics, and request payouts.",
 };
 
