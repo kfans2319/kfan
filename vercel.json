@@ -6,10 +6,7 @@
     },
     {
       "path": "/api/sub/handle-subscriptions",
-      "schedule": "0 3 * * *",
-      "headers": {
-        "Authorization": "Bearer @CRON_SECRET"
-      }
+      "schedule": "0 3 * * *"
     }
   ]
 }
