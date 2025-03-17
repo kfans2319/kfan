@@ -472,7 +472,7 @@ export default function BalanceMenu({ onClose }: { onClose: () => void }) {
           <button
             onClick={handleConfirmation}
             disabled={isLoading || !selectedAmount || !selectedPaymentMethod || !!error || (selectedPaymentMethod === "metamask" && !walletAddress)}
-            className="w-full px-3 py-2 rounded-md bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-medium disabled:opacity-50"
+            className="w-full px-3 py-2 rounded-md bg-primary text-primary-foreground text-sm font-medium disabled:opacity-50"
           >
             {isLoading ? "Processing..." : "Add to Balance"}
           </button>
