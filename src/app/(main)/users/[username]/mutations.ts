@@ -4,7 +4,6 @@ import { useUploadThing } from "@/lib/uploadthing";
 import { UpdateUserProfileValues } from "@/lib/validation";
 import {
   InfiniteData,
-  QueryFilters,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
@@ -13,9 +12,7 @@ import { updateUserProfile } from "./actions";
 
 export function useUpdateProfileMutation() {
   const { toast } = useToast();
-
   const router = useRouter();
-
   const queryClient = useQueryClient();
 
   const { startUpload: startAvatarUpload } = useUploadThing("avatar");
@@ -41,36 +38,37 @@ export function useUpdateProfileMutation() {
       const newAvatarUrl = avatarUploadResult?.[0]?.serverData.avatarUrl;
       const newBannerUrl = bannerUploadResult?.[0]?.serverData.bannerImageUrl;
 
+      // Define the query filter
       const queryFilter = {
         queryKey: ["post-feed"],
       };
 
       await queryClient.cancelQueries(queryFilter);
 
+      // Type assertion approach to fix the TypeScript error
       queryClient.setQueriesData<InfiniteData<PostsPage, string | null>>(
         queryFilter,
         (oldData) => {
-          if (!oldData) return;
-
-          return {
-            pageParams: oldData.pageParams,
-            pages: oldData.pages.map((page) => ({
-              nextCursor: page.nextCursor,
-              posts: page.posts.map((post) => {
-                if (post.user.id === updatedUser.id) {
-                  return {
-                    ...post,
-                    user: {
-                      ...updatedUser,
-                      avatarUrl: newAvatarUrl || updatedUser.avatarUrl,
-                      bannerImageUrl: newBannerUrl || updatedUser.bannerImageUrl,
-                    },
-                  };
-                }
-                return post;
-              }),
-            })),
-          };
+          if (!oldData) return undefined;
+          
+          // Create a deep copy to avoid mutation
+          const newData = JSON.parse(JSON.stringify(oldData)) as typeof oldData;
+          
+          // Update the user data in all posts
+          newData.pages.forEach(page => {
+            page.posts.forEach(post => {
+              if (post.user.id === updatedUser.id) {
+                // Update only the specific fields we know have changed
+                post.user.avatarUrl = newAvatarUrl || updatedUser.avatarUrl;
+                post.user.bannerImageUrl = newBannerUrl || updatedUser.bannerImageUrl;
+                post.user.displayName = updatedUser.displayName;
+                post.user.username = updatedUser.username;
+                post.user.bio = updatedUser.bio;
+              }
+            });
+          });
+          
+          return newData;
         },
       );
 

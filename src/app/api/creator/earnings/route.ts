@@ -94,7 +94,9 @@ export async function GET(req: NextRequest) {
         if (value !== null && 
             typeof value === 'object' && 
             typeof (value as WithDecimal).toNumber === 'function') {
-          return (value as WithDecimal).toNumber();
+          // Add a null check before calling toNumber
+          const decimalValue = value as WithDecimal;
+          return decimalValue.toNumber ? decimalValue.toNumber() : value;
         }
         return value;
       }));

@@ -22,7 +22,7 @@ export async function GET(
       where: {
         userId,
       },
-      include: getPostDataInclude(loggedInUserId, { exclude: ['isPublic'] }),
+      include: getPostDataInclude(loggedInUserId),
       orderBy: { createdAt: "desc" },
       take: pageSize + 1,
       cursor: cursor ? { id: cursor } : undefined,
