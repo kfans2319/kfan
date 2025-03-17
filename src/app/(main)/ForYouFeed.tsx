@@ -95,11 +95,12 @@ function ForYouFeed() {
             "/api/posts/for-you",
             {
               ...(pageParam ? { searchParams: { cursor: pageParam } } : {}),
-              timeout: 15000,
+              timeout: 30000,
               retry: {
-                limit: 2,
+                limit: 3,
                 methods: ['get'],
                 statusCodes: [408, 413, 429, 500, 502, 503, 504, 401],
+                backoffLimit: 10000,
               },
               headers: {
                 // Add client auth header if this appears to be a fresh login
@@ -118,15 +119,31 @@ function ForYouFeed() {
         return response;
       } catch (error: any) {
         console.error("Error fetching for-you feed:", error);
-        // Force refetch on certain errors
-        if (error.response?.status === 401) {
+        
+        // More detailed error handling
+        if (error.name === 'TimeoutError' || (error.message && error.message.includes('timeout'))) {
+          console.log("Timeout detected, will retry with backoff");
+          // Let the retry logic handle this case
+        } else if (error.response?.status === 401) {
+          // Auth error handling
           setTimeout(() => {
             console.log("Retrying after auth error");
             setRetryCount(count => count + 1);
           }, 500);
+        } else if (error.name === 'NetworkError' || (error.message && (error.message.includes('network') || error.message.includes('connection')))) {
+          console.log("Network error detected, check connection");
         }
+        
         setHasError(true);
-        return { posts: [], nextCursor: null, _error: true };
+        
+        // Show a more informative error message in the returned data
+        return { 
+          posts: [], 
+          nextCursor: null, 
+          _error: true,
+          _errorType: error.name || 'unknown',
+          _errorMessage: error.message || 'Unknown error occurred'
+        };
       }
     },
     initialPageParam: null as string | null,
@@ -135,7 +152,8 @@ function ForYouFeed() {
     gcTime: 5 * 60 * 1000,
     refetchOnWindowFocus: true,
     refetchOnMount: true, 
-    retry: 2,
+    retry: 3,
+    retryDelay: (attempt) => Math.min(1000 * (2 ** attempt), 30000),
     refetchOnReconnect: true,
     // Use fixed value instead of depending on status
     refetchInterval: false,

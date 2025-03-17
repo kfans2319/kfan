@@ -6,7 +6,7 @@ import { Prisma } from "@prisma/client";
 
 // Cache for recent posts to avoid repeated DB fetches
 const CACHE_TTL = 10 * 60 * 1000; // 10 minutes cache
-const QUERY_TIMEOUT = 5 * 1000; // Reduced to just 5 seconds
+const QUERY_TIMEOUT = 15 * 1000; // Increased to 15 seconds to prevent timeouts
 const DEFAULT_PAGE_SIZE = 3; // Further reduced for even faster initial load
 const MAX_PAGE_SIZE = 10; // Reduced maximum page size
 
@@ -89,13 +89,37 @@ export async function GET(req: NextRequest) {
     
     console.log(`For-you feed: User authenticated successfully. User ID: ${user.id.substring(0, 8)}..., Client auth: ${isClientAuth}`);
 
-    // Always get fresh data for debugging
-    console.log("For-you feed: Forcing fresh data fetch");
-    const result = await getFastPosts(user.id, cursor, pageSize, cacheKey);
-    return Response.json({
-      ...result,
-      _fresh: true
-    }, { headers });
+    try {
+      // Always get fresh data for debugging
+      console.log("For-you feed: Forcing fresh data fetch");
+      const result = await getFastPosts(user.id, cursor, pageSize, cacheKey);
+      return Response.json({
+        ...result,
+        _fresh: true
+      }, { headers });
+    } catch (fetchError) {
+      console.error("For-you feed: Primary fetch failed, trying fallback with simpler query", fetchError);
+      
+      // If we get a timeout, try a simpler query with fewer joins
+      if (fetchError instanceof Error && fetchError.message.includes("timeout")) {
+        try {
+          // Try an even simpler query with minimal joins and fewer posts
+          const fallbackResult = await getFallbackPosts(user.id, cursor, Math.min(pageSize, 3));
+          console.log("For-you feed: Fallback query succeeded");
+          return Response.json({
+            ...fallbackResult,
+            _fallback: true
+          }, { headers });
+        } catch (fallbackError) {
+          console.error("For-you feed: Fallback query also failed", fallbackError);
+          // Continue to general error handler
+          throw fallbackError;
+        }
+      }
+      
+      // If it wasn't a timeout or the fallback failed, rethrow
+      throw fetchError;
+    }
     
   } catch (error) {
     console.error("For You Feed Error:", error);
@@ -108,6 +132,16 @@ export async function GET(req: NextRequest) {
         _error: "Authentication failed",
         _errorDetails: "Please log in again"
       }, { status: 401, headers });
+    }
+    
+    // Check if this is a timeout error
+    if (error instanceof Error && error.message.includes("timeout")) {
+      return Response.json({
+        posts: [],
+        nextCursor: null,
+        _error: "Server timeout",
+        _errorDetails: "The server took too long to respond. Please try again later."
+      }, { status: 200, headers });
     }
     
     // Emergency fallback
@@ -217,6 +251,56 @@ async function getFastPosts(userId: string, cursor: string | null, pageSize: num
     return result;
   } catch (error) {
     console.error("Error in getFastPosts:", error);
+    throw error;
+  }
+}
+
+// Extremely simplified fallback for when the main query times out
+async function getFallbackPosts(userId: string, cursor: string | null, pageSize: number): Promise<PostsPage> {
+  try {
+    console.log(`DEBUG: Starting fallback post fetch for user ${userId.substring(0, 8)}`);
+    
+    // Ultra-minimal include with no relations
+    const minimalInclude = {
+      user: {
+        select: {
+          id: true,
+          username: true,
+          displayName: true,
+          avatarUrl: true
+        }
+      }
+    };
+
+    // Run with an extended timeout, but absolutely minimal query
+    const posts = await Promise.race([
+      prisma.post.findMany({
+        where: {
+          // Only get posts from the last 7 days to reduce query complexity
+          createdAt: {
+            gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+          }
+        },
+        include: minimalInclude,
+        orderBy: { createdAt: "desc" },
+        take: pageSize + 1,
+        cursor: cursor ? { id: cursor } : undefined,
+      }),
+      createTimeoutPromise(QUERY_TIMEOUT * 1.5) // Give it 50% more time
+    ]) as any[];
+
+    console.log(`DEBUG: Fallback query returned ${posts.length} posts`);
+    
+    // Determine if there's a next page
+    const nextCursor = posts.length > pageSize ? posts[pageSize].id : null;
+    
+    // Return the simplified posts
+    return {
+      posts: posts.slice(0, pageSize),
+      nextCursor,
+    };
+  } catch (error) {
+    console.error("Error in fallback post fetch:", error);
     throw error;
   }
 }

@@ -90,7 +90,7 @@ export default function UserButton({ className }: UserButtonProps) {
             </Link>
           </>
         )}
-        <DropdownMenuSub>
+        {/* <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <Monitor className="mr-2 size-4" />
             Theme
@@ -114,7 +114,7 @@ export default function UserButton({ className }: UserButtonProps) {
               </DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
-        </DropdownMenuSub>
+        </DropdownMenuSub> */}
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
