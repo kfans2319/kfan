@@ -6,14 +6,11 @@ async function migrateEarningsBalance() {
   try {
     console.log('Starting migration of earnings data to earningsBalance...');
     
-    // First, update the platformFee for existing creator earnings
-    // Assumes the existing amount is already the net amount (85% of gross)
+    // Only look for earnings with platformFee = 0, since null/undefined isn't supported
+    // in the latest version of Prisma
     const existingEarnings = await prisma.creatorEarning.findMany({
       where: {
-        OR: [
-          { platformFee: null },
-          { platformFee: 0 }
-        ]
+        platformFee: { equals: 0 }
       }
     });
     
