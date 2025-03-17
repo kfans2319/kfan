@@ -41,7 +41,7 @@ export function useUpdateProfileMutation() {
       const newAvatarUrl = avatarUploadResult?.[0]?.serverData.avatarUrl;
       const newBannerUrl = bannerUploadResult?.[0]?.serverData.bannerImageUrl;
 
-      const queryFilter: QueryFilters = {
+      const queryFilter = {
         queryKey: ["post-feed"],
       };
 
