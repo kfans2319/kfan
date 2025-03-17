@@ -7,9 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "build:worker": "cloudflare",
+    "dev:worker": "wrangler dev --port 8771",
+    "preview:worker": "npm run build:worker && npm run dev:worker",
+    "deploy:worker": "npm run build:worker && wrangler deploy"
   },
   "dependencies": {
+    "@cloudflare/wrangler": "^1.21.0",
     "@hookform/resolvers": "^3.9.0",
     "@lucia-auth/adapter-prisma": "^4.0.1",
     "@node-rs/argon2": "^2.0.2",
@@ -64,6 +69,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^0.5.11",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/linkify-it": "^5.0.0",
     "@types/linkifyjs": "^2.1.7",
