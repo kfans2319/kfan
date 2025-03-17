@@ -14,12 +14,11 @@ const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 // Configuration
-const MIN_FOLLOWERS_PER_CREATOR = 500;
-const MAX_FOLLOWERS_PER_CREATOR = 500000;
-const MIN_LIKES_PER_POST = 500;
-const MAX_LIKES_PER_POST = 500000;
+const MIN_FOLLOWERS_PER_USER = 40;
+const MAX_FOLLOWERS_PER_USER = 500;
+const MIN_LIKES_PER_POST = 20;
+const MAX_LIKES_PER_POST = 100;
 const BATCH_SIZE = 5000; // Process in batches of 5000 to avoid memory issues
-const TARGET_USERNAME = "JoJoKinks"; // The specific user to target
 
 /**
  * Get all blank users (users without posts)
@@ -46,6 +45,33 @@ async function getBlankUsers(limit = 1000000) {
     return blankUsers.map(user => user.id);
   } catch (error) {
     console.error('Error finding blank users:', error);
+    return [];
+  }
+}
+
+/**
+ * Get all users in the database
+ * @returns {Promise<Array>} Array of all users
+ */
+async function getAllUsers() {
+  console.log('Getting all users...');
+  
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        _count: {
+          select: {
+            posts: true
+          }
+        }
+      }
+    });
+    
+    console.log(`Found ${users.length} total users`);
+    return users;
+  } catch (error) {
+    console.error('Error getting all users:', error);
     return [];
   }
 }
@@ -387,16 +413,18 @@ async function updateFollowerCountMetadata(userId, followerCount) {
  * Main function to run the script
  */
 async function main() {
-  console.log(`Starting follow and like process for user ${TARGET_USERNAME}...`);
+  console.log('Starting follow and like process for all users...');
 
   try {
-    // Get the target user (JoJoKinks)
-    const targetUser = await getTargetUser();
+    // Get all users
+    const allUsers = await getAllUsers();
     
-    if (!targetUser) {
-      console.error(`Target user ${TARGET_USERNAME} not found. Cannot proceed.`);
+    if (allUsers.length === 0) {
+      console.error('No users found. Cannot proceed.');
       return;
     }
+    
+    console.log(`Will create follows and likes for ${allUsers.length} users`);
     
     // Get blank users (users without posts)
     const blankUserIds = await getBlankUsers();
@@ -408,20 +436,25 @@ async function main() {
     
     console.log(`Will use ${blankUserIds.length.toLocaleString()} blank users as followers and likers`);
     
-    // Process the target user
-    console.log(`\n======= Processing user ${targetUser.username} (${targetUser.id}) =======`);
-    
-    // Generate a random follower count for this user
-    const desiredFollowerCount = Math.floor(Math.random() * (MAX_FOLLOWERS_PER_CREATOR - MIN_FOLLOWERS_PER_CREATOR + 1)) + MIN_FOLLOWERS_PER_CREATOR;
-    
-    // Create follows
-    await createFollowsForUser(targetUser.id, desiredFollowerCount, blankUserIds);
-    
-    // Create likes for all posts
-    await createLikesForUserPosts(targetUser.id, blankUserIds);
+    // Process each user
+    for (const user of allUsers) {
+      console.log(`\n======= Processing user ${user.id} =======`);
+      
+      // Generate a random follower count for this user
+      const desiredFollowerCount = Math.floor(Math.random() * (MAX_FOLLOWERS_PER_USER - MIN_FOLLOWERS_PER_USER + 1)) + MIN_FOLLOWERS_PER_USER;
+      
+      // Create follows
+      await createFollowsForUser(user.id, desiredFollowerCount, blankUserIds);
+      
+      // Create likes for all posts
+      await createLikesForUserPosts(user.id, blankUserIds);
+      
+      // Small delay between processing users
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
     
     console.log('\n----------------------------------------');
-    console.log(`Follow and like process completed for ${TARGET_USERNAME}`);
+    console.log('Follow and like process completed for all users');
     console.log('----------------------------------------');
   } catch (error) {
     console.error('Error in main process:', error);

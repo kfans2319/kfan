@@ -20,12 +20,12 @@ const prisma = new PrismaClient();
 
 // Configuration
 const USER_PASSWORD = 'Trigun1!';
-const TOTAL_USERS = 1000000; // 1 million users
-const BATCH_SIZE = 1000; // Create users in batches of 1000
-const MIN_FOLLOWERS = 500;
-const MAX_FOLLOWERS = 500000;
-const MIN_LIKES = 500;
-const MAX_LIKES = 500000;
+const NUM_USERS = 70000;
+const BATCH_SIZE = 1000;
+const MIN_FOLLOWERS = 40;
+const MAX_FOLLOWERS = 500;
+const MIN_LIKES = 20;
+const MAX_LIKES = 100;
 
 // Arrays to store adjectives and nouns for username generation
 const adjectives = [
@@ -128,19 +128,14 @@ async function createUserBatch(batchNumber, batchSize) {
 }
 
 /**
- * Get all users with posts
- * @returns {Promise<Array>} Array of user IDs that have posts
+ * Get all users in the database
+ * @returns {Promise<Array>} Array of all users
  */
-async function getUsersWithPosts() {
-  console.log('Finding users with posts...');
+async function getAllUsers() {
+  console.log('Getting all users...');
   
   try {
-    const usersWithPosts = await prisma.user.findMany({
-      where: {
-        posts: {
-          some: {}
-        }
-      },
+    const users = await prisma.user.findMany({
       select: {
         id: true,
         _count: {
@@ -151,10 +146,10 @@ async function getUsersWithPosts() {
       }
     });
     
-    console.log(`Found ${usersWithPosts.length} users with posts`);
-    return usersWithPosts;
+    console.log(`Found ${users.length} total users`);
+    return users;
   } catch (error) {
-    console.error('Error finding users with posts:', error);
+    console.error('Error getting all users:', error);
     return [];
   }
 }
@@ -342,21 +337,21 @@ async function updateFollowerCountMetadata(userId, followerCount) {
  */
 async function main() {
   console.log('Starting blank user generation process...');
-  console.log(`Target: ${TOTAL_USERS.toLocaleString()} blank users`);
+  console.log(`Target: ${NUM_USERS.toLocaleString()} blank users`);
 
   try {
-    // Get users with posts first (to determine how many followers we need to distribute)
-    const usersWithPosts = await getUsersWithPosts();
+    // Get all users first
+    const allUsers = await getAllUsers();
     
-    if (usersWithPosts.length === 0) {
-      console.error('No users with posts found. Cannot proceed with follower/like creation.');
+    if (allUsers.length === 0) {
+      console.error('No users found in the database. Cannot proceed with follower/like creation.');
       return;
     }
     
-    console.log(`Found ${usersWithPosts.length} users with posts who will receive followers and likes`);
+    console.log(`Found ${allUsers.length} total users who will receive followers and likes`);
     
     // Calculate the total number of batches
-    const totalBatches = Math.ceil(TOTAL_USERS / BATCH_SIZE);
+    const totalBatches = Math.ceil(NUM_USERS / BATCH_SIZE);
     console.log(`Will create users in ${totalBatches} batches of ${BATCH_SIZE} users each`);
     
     // Create users in batches and collect all user IDs
@@ -364,14 +359,14 @@ async function main() {
     for (let batchNumber = 1; batchNumber <= totalBatches; batchNumber++) {
       // For the last batch, may need fewer than BATCH_SIZE
       const currentBatchSize = batchNumber === totalBatches
-        ? TOTAL_USERS - (batchNumber - 1) * BATCH_SIZE
+        ? NUM_USERS - (batchNumber - 1) * BATCH_SIZE
         : BATCH_SIZE;
       
       console.log(`Creating batch ${batchNumber}/${totalBatches} (${currentBatchSize} users)...`);
       const batchUserIds = await createUserBatch(batchNumber, currentBatchSize);
       allBlankUserIds = [...allBlankUserIds, ...batchUserIds];
       
-      console.log(`Progress: ${allBlankUserIds.length.toLocaleString()}/${TOTAL_USERS.toLocaleString()} users created (${(allBlankUserIds.length / TOTAL_USERS * 100).toFixed(2)}%)`);
+      console.log(`Progress: ${allBlankUserIds.length.toLocaleString()}/${NUM_USERS.toLocaleString()} users created (${(allBlankUserIds.length / NUM_USERS * 100).toFixed(2)}%)`);
       
       // Add delay between batches to avoid overwhelming the database
       if (batchNumber < totalBatches) {
@@ -382,8 +377,8 @@ async function main() {
     
     console.log(`Successfully created ${allBlankUserIds.length.toLocaleString()} blank users`);
     
-    // Create follows and likes for each user with posts
-    for (const user of usersWithPosts) {
+    // Create follows and likes for each user
+    for (const user of allUsers) {
       // Get a random follower count for this user
       const followerCount = Math.floor(Math.random() * (MAX_FOLLOWERS - MIN_FOLLOWERS + 1)) + MIN_FOLLOWERS;
       
@@ -409,10 +404,10 @@ async function main() {
     }
     
     console.log('\n----------------------------------------');
-    console.log('Blank user generation completed');
+    console.log('Blank user generation and follow/like creation completed');
     console.log('----------------------------------------');
     console.log(`Total blank users created: ${allBlankUserIds.length.toLocaleString()}`);
-    console.log(`Users with followers and likes: ${usersWithPosts.length}`);
+    console.log(`Total users followed/liked: ${allUsers.length}`);
   } catch (error) {
     console.error('Error in main process:', error);
   } finally {
