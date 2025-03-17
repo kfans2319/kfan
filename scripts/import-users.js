@@ -14,6 +14,7 @@ const { PrismaClient, Prisma } = require('@prisma/client');
 const { hash } = require('@node-rs/argon2');
 const { generateIdFromEntropySize } = require('lucia');
 const crypto = require('crypto');
+const { StreamChat } = require('stream-chat');
 
 // Initialize Prisma client
 const prisma = new PrismaClient();
@@ -21,6 +22,12 @@ const prisma = new PrismaClient();
 // Configuration
 const DOWNLOADS_DIR = path.join(process.cwd(), 'downloads');
 const USER_PASSWORD = 'trigun1';
+
+// Add Stream Chat client initialization
+const streamClient = StreamChat.getInstance(
+  process.env.NEXT_PUBLIC_STREAM_KEY,
+  process.env.STREAM_SECRET
+);
 
 /**
  * Generate a random email
@@ -93,6 +100,19 @@ async function createUser(username, email, password) {
         createdAt, // Set the random join date
       }
     });
+
+    // Register user with Stream Chat
+    try {
+      await streamClient.upsertUser({
+        id: userId,
+        username,
+        name: username,
+      });
+      console.log(`Registered user ${username} with Stream Chat`);
+    } catch (streamError) {
+      console.error(`Error registering user with Stream Chat: ${streamError}`);
+      // Continue processing even if Stream Chat registration fails
+    }
 
     console.log(`User created successfully: ${username} (ID: ${userId})`);
     return newUser;
