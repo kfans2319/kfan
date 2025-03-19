@@ -32,14 +32,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* Remove the manual link tag since we're using metadata */}
-        {/* <link 
-          rel="icon" 
-          href="/favicon.ico?v=2" 
-          type="image/x-icon"
-        /> */}
-      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <NextSSRPlugin routerConfig={extractRouterConfig(fileRouter)} />
         <ReactQueryProvider>

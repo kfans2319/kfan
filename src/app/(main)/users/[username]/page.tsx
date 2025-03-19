@@ -91,6 +91,19 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
   // Get the bannerImageUrl with TypeScript safety
   const bannerImageUrl = (user as any).bannerImageUrl;
 
+  // Transform the UploadThing URL to use the working format
+  let optimizedBannerUrl = bannerImageUrl;
+  if (bannerImageUrl && (bannerImageUrl.includes('t8x8bguwl4.ufs.sh') || bannerImageUrl.includes('utfs.io'))) {
+    // Extract the file ID from the URL path
+    const fileId = bannerImageUrl.split('/').pop();
+    
+    // For t8x8bguwl4.ufs.sh domain, prefer the /f/ format
+    if (bannerImageUrl.includes('t8x8bguwl4.ufs.sh') && fileId) {
+      optimizedBannerUrl = `https://t8x8bguwl4.ufs.sh/f/${fileId}`;
+      console.log("Using optimized banner URL format:", optimizedBannerUrl);
+    }
+  }
+
   return (
     <div className="h-fit w-full rounded-2xl bg-card shadow-sm">
       <div className="relative">
@@ -98,7 +111,7 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
         <div className="h-48 w-full overflow-hidden rounded-t-2xl">
           {bannerImageUrl ? (
             <Image 
-              src={bannerImageUrl} 
+              src={optimizedBannerUrl} 
               alt="Profile banner"
               width={1200}
               height={400}

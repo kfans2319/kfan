@@ -151,6 +151,28 @@ When storing media URLs in the database:
 2. For images, the standard `/a/t8x8bguwl4/{imageId}` format usually works fine
 3. Consider storing both formats or implementing URL transformation logic in the getter
 
+## UploadThing URL Formats for Next.js Image Component
+
+When working with UploadThing URLs in Next.js Image components:
+
+1. For the t8x8bguwl4.ufs.sh domain, always use the `/f/{fileId}` format instead of `/a/t8x8bguwl4/{fileId}`
+2. Extract the file ID from the URL path with: `const fileId = url.split('/').pop()`
+3. Apply this transformation for both image and video URLs
+4. Implement this URL transformation logic in shared components (UserAvatar, etc.)
+5. Always provide a fallback UI for cases where images fail to load
+6. Ensure the next.config.js includes all required domains in the images.remotePatterns configuration
+
+Example transformation code:
+```typescript
+let optimizedUrl = originalUrl;
+if (originalUrl && originalUrl.includes('t8x8bguwl4.ufs.sh')) {
+  const fileId = originalUrl.split('/').pop();
+  if (fileId) {
+    optimizedUrl = `https://t8x8bguwl4.ufs.sh/f/${fileId}`;
+  }
+}
+```
+
 # Scratchpad
 
 ## Current Task: Fixing UploadThing Video URL Formats and Playback
