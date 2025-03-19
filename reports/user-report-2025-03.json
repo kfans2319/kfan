@@ -1,0 +1,1072 @@
+{
+  "reportPeriod": {
+    "month": 3,
+    "year": 2025,
+    "startDate": "2025-03-01T08:00:00.000Z",
+    "endDate": "2025-04-01T06:59:59.999Z"
+  },
+  "summary": {
+    "totalNewUsers": 2626,
+    "changeFromPreviousMonth": "-44.06%",
+    "percentageOfTotalUsers": "1.90%",
+    "averageSignupsPerDay": "84.71",
+    "highestSignupDay": {
+      "day": 8,
+      "count": 208
+    },
+    "lowestSignupDay": {
+      "day": 18,
+      "count": 0
+    }
+  },
+  "verificationStats": {
+    "verifiedUsers": 2625,
+    "verificationRate": "99.96%",
+    "pendingVerification": 0,
+    "approvedVerification": 2624,
+    "rejectedVerification": 0
+  },
+  "profileCompleteness": {
+    "withAvatar": 0,
+    "avatarRate": "0.00%",
+    "withBanner": 0,
+    "bannerRate": "0.00%",
+    "withBothImages": 0,
+    "bothImagesRate": "0.00%"
+  },
+  "dailySignups": {
+    "1": 180,
+    "2": 196,
+    "3": 162,
+    "4": 175,
+    "5": 177,
+    "6": 184,
+    "7": 167,
+    "8": 208,
+    "9": 178,
+    "10": 168,
+    "11": 198,
+    "12": 156,
+    "13": 149,
+    "14": 180,
+    "15": 146,
+    "16": 1,
+    "17": 1,
+    "18": 0,
+    "19": 0,
+    "20": 0,
+    "21": 0,
+    "22": 0,
+    "23": 0,
+    "24": 0,
+    "25": 0,
+    "26": 0,
+    "27": 0,
+    "28": 0,
+    "29": 0,
+    "30": 0,
+    "31": 0
+  },
+  "users": [
+    {
+      "id": "tagjv2fz7lrnpx6o",
+      "username": "johnathan-vargas-tagj",
+      "email": null,
+      "signupDate": "2025-03-17T14:51:43.280Z",
+      "isVerified": false,
+      "verificationStatus": "NONE",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "slq4dnerv36wdyt7",
+      "username": "mightylion3270",
+      "email": "mightylion32701363@hotmail.com",
+      "signupDate": "2025-03-13T22:05:55.944Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "urdbinyd6lkj4crd",
+      "username": "magicalfox3628",
+      "email": "magicalfox36288571@gmail.com",
+      "signupDate": "2025-03-05T05:29:40.833Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "rlgwhmiqelj47erl",
+      "username": "calmwriter6220",
+      "email": "calmwriter62201273@hotmail.com",
+      "signupDate": "2025-03-07T14:12:07.721Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "jo27smrfwpncpvmf",
+      "username": "happydolphin2411",
+      "email": "happydolphin2411590@gmail.com",
+      "signupDate": "2025-03-05T19:38:48.784Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "wj52g6nvfyaehgbo",
+      "username": "shinyagent5755",
+      "email": "shinyagent57558987@protonmail.com",
+      "signupDate": "2025-03-02T10:36:57.291Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "kyofn2ks6bny2kzw",
+      "username": "kindfox1804",
+      "email": "kindfox18043780@outlook.com",
+      "signupDate": "2025-03-01T10:42:32.400Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "wq3ero4aj7yjtr5l",
+      "username": "silentwriter8133",
+      "email": "silentwriter81334816@protonmail.com",
+      "signupDate": "2025-03-10T12:00:19.655Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "llpcw3fxlhz4eigq",
+      "username": "smoothagent6098",
+      "email": "smoothagent60988919@outlook.com",
+      "signupDate": "2025-03-11T16:31:49.308Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "wq2f2wvtp4a5ntdf",
+      "username": "brightdancer2050",
+      "email": "brightdancer20505157@protonmail.com",
+      "signupDate": "2025-03-03T02:15:48.898Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "fvlrgazprfekh22s",
+      "username": "brighteagle3117",
+      "email": "brighteagle31173322@yahoo.com",
+      "signupDate": "2025-03-04T07:29:30.726Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "kb3nndop62csofhc",
+      "username": "kinddragon9265",
+      "email": "kinddragon92655850@outlook.com",
+      "signupDate": "2025-03-01T15:47:05.465Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "nhnjtmfxpomavsgj",
+      "username": "jollyeagle4618",
+      "email": "jollyeagle46188413@hotmail.com",
+      "signupDate": "2025-03-03T12:17:21.936Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "k3iso53xrsw554vz",
+      "username": "fancyninja6866",
+      "email": "fancyninja68669486@gmail.com",
+      "signupDate": "2025-03-04T01:53:32.421Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "7r2cdh35nzhw54z3",
+      "username": "magicalartist2358",
+      "email": "magicalartist23584744@yahoo.com",
+      "signupDate": "2025-03-10T17:31:01.394Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "oog22jy66c6hooqo",
+      "username": "superagent6601",
+      "email": "superagent66012785@yahoo.com",
+      "signupDate": "2025-03-11T21:58:57.960Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "vlnbn4rzrpi4fkz3",
+      "username": "superdragon4959",
+      "email": "superdragon49595547@outlook.com",
+      "signupDate": "2025-03-11T20:31:11.292Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "fnyrufnqmfy3mfaj",
+      "username": "shinyracer1712",
+      "email": "shinyracer17121715@gmail.com",
+      "signupDate": "2025-03-05T09:13:48.341Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "f3kf6gdpcnqtikc5",
+      "username": "swiftgamer7037",
+      "email": "swiftgamer7037867@outlook.com",
+      "signupDate": "2025-03-08T19:25:41.630Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "jk2fxriqppu6ssub",
+      "username": "brightagent432",
+      "email": "brightagent432449@yahoo.com",
+      "signupDate": "2025-03-13T14:10:34.727Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "h25kctxjynlzjjon",
+      "username": "boldpanda8168",
+      "email": "boldpanda81684031@gmail.com",
+      "signupDate": "2025-03-08T23:25:38.841Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "2yzwks2va7zadb4t",
+      "username": "jollyfox7029",
+      "email": "jollyfox70295178@hotmail.com",
+      "signupDate": "2025-03-09T06:47:23.015Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "45xpmolhesjtgmqg",
+      "username": "silentagent9404",
+      "email": "silentagent94047911@yahoo.com",
+      "signupDate": "2025-03-11T16:14:36.374Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "kne4n3f4qipw2zpw",
+      "username": "shinyhero6498",
+      "email": "shinyhero64985653@hotmail.com",
+      "signupDate": "2025-03-14T13:06:08.260Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "rk5eyjzfyuwb6gah",
+      "username": "kindracer8771",
+      "email": "kindracer87713531@outlook.com",
+      "signupDate": "2025-03-10T05:13:53.926Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "qi4c6y4v277bgext",
+      "username": "jollydolphin5330",
+      "email": "jollydolphin53309872@protonmail.com",
+      "signupDate": "2025-03-11T01:02:40.868Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "62wkozmi5dccrl33",
+      "username": "mightyeagle9934",
+      "email": "mightyeagle99342964@gmail.com",
+      "signupDate": "2025-03-05T14:40:21.373Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "67lykvnaxcggo4xn",
+      "username": "calmdolphin9628",
+      "email": "calmdolphin96285442@yahoo.com",
+      "signupDate": "2025-03-05T16:12:28.368Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "mrtsrsooxvqeh4ut",
+      "username": "fiercerunner208",
+      "email": "fiercerunner2089995@gmail.com",
+      "signupDate": "2025-03-11T22:52:40.937Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "xvz54gxsoqujquux",
+      "username": "shinyninja2031",
+      "email": "shinyninja20312905@yahoo.com",
+      "signupDate": "2025-03-10T05:02:17.114Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "4a7wb6wpggo3frfw",
+      "username": "swiftlion2780",
+      "email": "swiftlion2780543@outlook.com",
+      "signupDate": "2025-03-05T05:06:34.967Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "jn4ndwqbrmr6omaq",
+      "username": "fancyeagle4324",
+      "email": "fancyeagle43244219@gmail.com",
+      "signupDate": "2025-03-10T13:32:20.858Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "fvu32r4yce55otxm",
+      "username": "creativedragon9833",
+      "email": "creativedragon98335915@outlook.com",
+      "signupDate": "2025-03-06T08:15:15.989Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "xo26vraqf25j4cpg",
+      "username": "gentlechef6349",
+      "email": "gentlechef63494798@outlook.com",
+      "signupDate": "2025-03-11T22:56:13.003Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "fs66bca226bmcaza",
+      "username": "swiftlion6435",
+      "email": "swiftlion6435340@yahoo.com",
+      "signupDate": "2025-03-06T03:19:36.000Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "4szvtvwxj7lcnfsq",
+      "username": "smoothdragon4785",
+      "email": "smoothdragon47852308@yahoo.com",
+      "signupDate": "2025-03-06T01:56:24.917Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "nks3bzzndalphmpx",
+      "username": "magicalwriter6463",
+      "email": "magicalwriter64633706@yahoo.com",
+      "signupDate": "2025-03-11T00:06:05.534Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "bgff4e67hpy3qjre",
+      "username": "happyeagle3572",
+      "email": "happyeagle35727099@protonmail.com",
+      "signupDate": "2025-03-06T20:53:16.710Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "mn6zarxrn7kdvq67",
+      "username": "shinyfox5644",
+      "email": "shinyfox56441069@outlook.com",
+      "signupDate": "2025-03-02T09:37:01.970Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "skrg6cojxltyklzi",
+      "username": "wildcoder7627",
+      "email": "wildcoder76279179@yahoo.com",
+      "signupDate": "2025-03-03T20:08:43.150Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "e7j4p4whz3b2zbsc",
+      "username": "calmwriter8770",
+      "email": "calmwriter87702790@protonmail.com",
+      "signupDate": "2025-03-04T00:17:11.884Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "vo7czzgehurf2rnb",
+      "username": "fiercepanda7626",
+      "email": "fiercepanda76263327@hotmail.com",
+      "signupDate": "2025-03-07T17:05:30.557Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "lfkjaq2tex5ocvao",
+      "username": "greatwriter7564",
+      "email": "greatwriter756471@protonmail.com",
+      "signupDate": "2025-03-02T09:31:42.264Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "7vsr4hqcsi5p3h2j",
+      "username": "wilddragon8233",
+      "email": "wilddragon82338043@protonmail.com",
+      "signupDate": "2025-03-12T20:00:04.326Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "tbhlgfaa2wuxn6z3",
+      "username": "mightypanda6373",
+      "email": "mightypanda63735227@yahoo.com",
+      "signupDate": "2025-03-06T08:58:54.416Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "lyeu6fstc6ttqmuo",
+      "username": "gentlegamer4782",
+      "email": "gentlegamer47825929@outlook.com",
+      "signupDate": "2025-03-07T12:10:17.010Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "zhil5jidpytjm6zm",
+      "username": "fancyhero673",
+      "email": "fancyhero6736937@hotmail.com",
+      "signupDate": "2025-03-04T23:02:58.676Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "y64tf2iohwtzoukh",
+      "username": "kindwolf8598",
+      "email": "kindwolf85984314@outlook.com",
+      "signupDate": "2025-03-03T22:37:26.994Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "v27bt4brv7jsnyuu",
+      "username": "fiercewolf7885",
+      "email": "fiercewolf78855653@gmail.com",
+      "signupDate": "2025-03-15T10:15:40.717Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "wwes2ruhl26iykog",
+      "username": "jollysinger6872",
+      "email": "jollysinger6872228@gmail.com",
+      "signupDate": "2025-03-10T07:40:13.589Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "btl3bg2qkz5pc257",
+      "username": "mightytiger2352",
+      "email": "mightytiger23522884@gmail.com",
+      "signupDate": "2025-03-07T00:55:42.967Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "zwgu4tjtwsfdxwpi",
+      "username": "kindagent640",
+      "email": "kindagent640461@outlook.com",
+      "signupDate": "2025-03-09T11:16:00.824Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "n3azqzonezwzsq35",
+      "username": "brightwizard2750",
+      "email": "brightwizard27502274@gmail.com",
+      "signupDate": "2025-03-08T13:09:02.166Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "52l3efonxiintshn",
+      "username": "smartlion8664",
+      "email": "smartlion86645788@gmail.com",
+      "signupDate": "2025-03-11T15:50:18.175Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "qf2sp2xynkybckck",
+      "username": "smoothartist6488",
+      "email": "smoothartist64885724@gmail.com",
+      "signupDate": "2025-03-12T20:16:02.414Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "g6jaw53eci3ksv27",
+      "username": "quickhero7723",
+      "email": "quickhero77239751@gmail.com",
+      "signupDate": "2025-03-06T04:33:40.712Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "ngf5mhpj4tik3hqy",
+      "username": "cleverrunner4355",
+      "email": "cleverrunner43551957@protonmail.com",
+      "signupDate": "2025-03-06T16:41:15.029Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "r3gjj6qfxjs7bveh",
+      "username": "creativewolf5862",
+      "email": "creativewolf5862351@yahoo.com",
+      "signupDate": "2025-03-08T14:50:42.370Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "tggtgjkiw2rtnygp",
+      "username": "swiftcoder4278",
+      "email": "swiftcoder42788587@hotmail.com",
+      "signupDate": "2025-03-05T10:45:56.288Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "xsidhs33mhormssy",
+      "username": "silentfox3014",
+      "email": "silentfox30144638@gmail.com",
+      "signupDate": "2025-03-03T12:23:59.719Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "od5k2olttjgw42xi",
+      "username": "creativepilot4766",
+      "email": "creativepilot4766655@protonmail.com",
+      "signupDate": "2025-03-13T09:04:42.075Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "ajqzcgybkuod4kei",
+      "username": "gentleagent4894",
+      "email": "gentleagent48945263@hotmail.com",
+      "signupDate": "2025-03-05T01:20:18.627Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "pgzu3prpla6jh5ad",
+      "username": "bolddolphin9041",
+      "email": "bolddolphin90419536@yahoo.com",
+      "signupDate": "2025-03-11T01:47:51.260Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "xwdo2izpulvynvx5",
+      "username": "creativesinger8041",
+      "email": "creativesinger80416023@yahoo.com",
+      "signupDate": "2025-03-12T16:46:48.924Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "23pw3rtvjizopxi4",
+      "username": "greatgamer8842",
+      "email": "greatgamer88428295@outlook.com",
+      "signupDate": "2025-03-04T19:04:01.332Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "73te576mfhmypblg",
+      "username": "silentsinger5085",
+      "email": "silentsinger50852265@gmail.com",
+      "signupDate": "2025-03-02T10:39:20.668Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "ivoknwlyiq43ssga",
+      "username": "cleverhero2325",
+      "email": "cleverhero23256432@gmail.com",
+      "signupDate": "2025-03-09T13:11:03.151Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "xowmsmd7i3r2jv4q",
+      "username": "wiseracer2639",
+      "email": "wiseracer26394915@gmail.com",
+      "signupDate": "2025-03-13T02:45:44.060Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "tnhq6r7euj7zn77p",
+      "username": "gentleeagle8627",
+      "email": "gentleeagle86276734@hotmail.com",
+      "signupDate": "2025-03-13T02:24:12.964Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "dpdiwa4aa2vwhk6h",
+      "username": "clevertiger2576",
+      "email": "clevertiger25762573@hotmail.com",
+      "signupDate": "2025-03-11T12:55:28.519Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "yd4st5fpkymxdkyt",
+      "username": "greatpanda1795",
+      "email": "greatpanda17959402@outlook.com",
+      "signupDate": "2025-03-15T10:03:24.665Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "a7dqpl2x2sw6x5qq",
+      "username": "bravepilot1313",
+      "email": "bravepilot13139741@yahoo.com",
+      "signupDate": "2025-03-07T14:01:20.543Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "whqkxwrrnkp7uvpw",
+      "username": "fancyracer6408",
+      "email": "fancyracer64087958@gmail.com",
+      "signupDate": "2025-03-14T23:09:53.505Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "mthgz7tlcb2tkux7",
+      "username": "wiseeagle5206",
+      "email": "wiseeagle52062112@yahoo.com",
+      "signupDate": "2025-03-10T03:46:44.043Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "e5mqeob4osfv2ftl",
+      "username": "kindsinger3682",
+      "email": "kindsinger36821749@hotmail.com",
+      "signupDate": "2025-03-01T11:12:01.137Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "smgc4c6ygvao6o2d",
+      "username": "shinywizard1123",
+      "email": "shinywizard11237479@outlook.com",
+      "signupDate": "2025-03-11T12:19:27.810Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "qjirxb6wbruuwc57",
+      "username": "happydancer7271",
+      "email": "happydancer72713389@yahoo.com",
+      "signupDate": "2025-03-07T22:16:15.752Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "2uiymkd32kyh5ul5",
+      "username": "mightydragon5612",
+      "email": "mightydragon56123468@yahoo.com",
+      "signupDate": "2025-03-02T05:30:55.900Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "nqrrnymwvcujfmdn",
+      "username": "jollydancer2003",
+      "email": "jollydancer20032649@hotmail.com",
+      "signupDate": "2025-03-03T09:33:05.875Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "6oisjoixxglwdnxq",
+      "username": "smartdancer1630",
+      "email": "smartdancer16309099@outlook.com",
+      "signupDate": "2025-03-11T06:15:56.328Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "eykxpnpxbmz6s72r",
+      "username": "fancytiger5617",
+      "email": "fancytiger56175995@protonmail.com",
+      "signupDate": "2025-03-14T05:01:40.688Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "ia6wullnbxbuqis2",
+      "username": "wiseranger9491",
+      "email": "wiseranger94914221@outlook.com",
+      "signupDate": "2025-03-01T14:21:21.122Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "x6iyvw5fdtinm2vs",
+      "username": "smoothcoder1690",
+      "email": "smoothcoder16909757@protonmail.com",
+      "signupDate": "2025-03-07T03:06:41.513Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "2ctifkym6cp3swfd",
+      "username": "quicklion8995",
+      "email": "quicklion89957054@gmail.com",
+      "signupDate": "2025-03-12T20:11:22.735Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "xgioao3yvk3ss2jh",
+      "username": "brightdolphin7939",
+      "email": "brightdolphin79394186@hotmail.com",
+      "signupDate": "2025-03-11T02:56:44.737Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "32zrdg5qlys66qka",
+      "username": "gentlelion908",
+      "email": "gentlelion9089343@gmail.com",
+      "signupDate": "2025-03-07T14:31:50.526Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "pjzrml3vp4hejeqj",
+      "username": "fancyrunner3083",
+      "email": "fancyrunner3083610@hotmail.com",
+      "signupDate": "2025-03-14T15:25:15.209Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "tdstnqtqeyvha3zy",
+      "username": "gentledolphin2621",
+      "email": "gentledolphin26214732@outlook.com",
+      "signupDate": "2025-03-11T00:44:46.904Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "2tl2owwjq4olk2bm",
+      "username": "quickracer5474",
+      "email": "quickracer54745260@yahoo.com",
+      "signupDate": "2025-03-08T20:16:41.898Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "3izatlab5sypcl46",
+      "username": "gentleartist1934",
+      "email": "gentleartist193488@protonmail.com",
+      "signupDate": "2025-03-02T15:54:49.974Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "xh27jxjdfy2u52qt",
+      "username": "smoothdolphin5597",
+      "email": "smoothdolphin55971502@hotmail.com",
+      "signupDate": "2025-03-15T10:50:14.305Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "fmfojx4l5zf4jpbw",
+      "username": "mightywizard8126",
+      "email": "mightywizard81263728@gmail.com",
+      "signupDate": "2025-03-02T10:16:24.884Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "xai36zmuyxvuns2u",
+      "username": "calmartist5811",
+      "email": "calmartist58111387@outlook.com",
+      "signupDate": "2025-03-10T08:13:12.543Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "shrbfdfrb7g2uoyn",
+      "username": "wildranger456",
+      "email": "wildranger4569685@yahoo.com",
+      "signupDate": "2025-03-06T06:00:41.139Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "3smqiyentwjyb3mr",
+      "username": "wiserunner9385",
+      "email": "wiserunner93853541@outlook.com",
+      "signupDate": "2025-03-09T08:20:37.924Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "wxw6ldhtluhh4idp",
+      "username": "jollyeagle6287",
+      "email": "jollyeagle62879818@protonmail.com",
+      "signupDate": "2025-03-01T08:19:44.298Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "rifomdrqlgznbx6q",
+      "username": "swiftknight9660",
+      "email": "swiftknight9660210@yahoo.com",
+      "signupDate": "2025-03-11T10:55:31.340Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "lvvb7othqck3gm6i",
+      "username": "gentleeagle2731",
+      "email": "gentleeagle27313720@gmail.com",
+      "signupDate": "2025-03-06T20:56:10.506Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "wv2cb42f7vjbhb63",
+      "username": "happycoder8725",
+      "email": "happycoder87253216@gmail.com",
+      "signupDate": "2025-03-07T08:24:28.933Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    },
+    {
+      "id": "4tsnti3wbdiglqot",
+      "username": "fancydragon7960",
+      "email": "fancydragon79604861@outlook.com",
+      "signupDate": "2025-03-08T03:26:51.984Z",
+      "isVerified": true,
+      "verificationStatus": "APPROVED",
+      "hasAvatar": false,
+      "hasBanner": false
+    }
+  ]
+}

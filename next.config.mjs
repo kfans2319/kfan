@@ -18,6 +18,26 @@ const nextConfig = {
         hostname: "utfs.io",
         pathname: "/f/*",
       },
+      {
+        protocol: "https",
+        hostname: "t8x8bguwl4.ufs.sh",
+        pathname: `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/*`,
+      },
+      {
+        protocol: "https",
+        hostname: "t8x8bguwl4.ufs.sh",
+        pathname: "/a/t8x8bguwl4/*",
+      },
+      {
+        protocol: "https",
+        hostname: "t8x8bguwl4.ufs.sh",
+        pathname: "/f/*",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.uploadthing.com",
+        pathname: "/f/*",
+      },
     ],
   },
   rewrites: () => {

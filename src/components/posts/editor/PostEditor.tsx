@@ -195,7 +195,7 @@ function AddAttachmentsButton({
       </Button>
       <input
         type="file"
-        accept="image/*, video/*"
+        accept="image/*, video/*, .mov, .MOV, video/quicktime"
         multiple
         ref={fileInputRef}
         className="sr-only hidden"
@@ -262,8 +262,30 @@ function AttachmentPreview({
           className="size-fit max-h-[30rem] rounded-2xl"
         />
       ) : (
-        <video controls className="size-fit max-h-[30rem] rounded-2xl">
+        <video 
+          controls 
+          crossOrigin="anonymous"
+          className="size-fit max-h-[30rem] rounded-2xl"
+          onError={(e) => {
+            const videoEl = e.target as HTMLVideoElement;
+            console.error("Video preview error:", {
+              src: videoEl.src,
+              type: file.type,
+              error: videoEl.error,
+              readyState: videoEl.readyState,
+              networkState: videoEl.networkState
+            });
+          }}
+          onLoadedMetadata={() => console.log("Video preview metadata loaded successfully")}
+          onCanPlay={() => console.log("Video preview can play event triggered")}
+        >
           <source src={src} type={file.type} />
+          <source src={src} type="video/mp4" />
+          <source src={src} type="video/webm" />
+          <source src={src} type="video/quicktime" />
+          <source src={src} type="video/mov" />
+          <source src={src} type="video/x-m4v" />
+          Your browser does not support this video format.
         </video>
       )}
       {!isUploading && (
