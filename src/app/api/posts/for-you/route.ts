@@ -68,14 +68,15 @@ export async function GET(req: NextRequest) {
     const authTs = req.nextUrl.searchParams.get('_auth');
     
     // Parse query parameters with defaults and validation
-    const cursor = req.nextUrl.searchParams.get("cursor");
+    // For randomized feed, we're using page parameter instead of cursor
+    const page = parseInt(req.nextUrl.searchParams.get("page") || "1");
     const requestedPageSize = parseInt(req.nextUrl.searchParams.get("pageSize") || String(DEFAULT_PAGE_SIZE));
     const pageSize = Math.min(Math.max(1, requestedPageSize), MAX_PAGE_SIZE);
     
     // Generate cache key, include auth timestamp for client auth requests
     const cacheKey = isClientAuth && authTs 
-      ? `${cursor || 'initial'}-auth-${authTs}`
-      : cursor || 'initial';
+      ? `random-${authTs}-page-${page}`
+      : `random-${Date.now()}-page-${page}`; // Use timestamp for random feeds
     
     // Authentication check
     const { user } = await validateRequest();
@@ -92,7 +93,7 @@ export async function GET(req: NextRequest) {
     try {
       // Always get fresh data for debugging
       console.log("For-you feed: Forcing fresh data fetch");
-      const result = await getFastPosts(user.id, cursor, pageSize, cacheKey);
+      const result = await getFastPosts(user.id, page, pageSize, cacheKey);
       return Response.json({
         ...result,
         _fresh: true
@@ -104,7 +105,7 @@ export async function GET(req: NextRequest) {
       if (fetchError instanceof Error && fetchError.message.includes("timeout")) {
         try {
           // Try an even simpler query with minimal joins and fewer posts
-          const fallbackResult = await getFallbackPosts(user.id, cursor, Math.min(pageSize, 3));
+          const fallbackResult = await getFallbackPosts(user.id, page, Math.min(pageSize, 3));
           console.log("For-you feed: Fallback query succeeded");
           return Response.json({
             ...fallbackResult,
@@ -155,9 +156,9 @@ export async function GET(req: NextRequest) {
 }
 
 // Background cache refresh - fire and forget
-async function refreshCacheInBackground(userId: string, cursor: string | null, pageSize: number, cacheKey: string): Promise<void> {
+async function refreshCacheInBackground(userId: string, page: number, pageSize: number, cacheKey: string): Promise<void> {
   try {
-    const result = await getFastPosts(userId, cursor, pageSize, cacheKey);
+    const result = await getFastPosts(userId, page, pageSize, cacheKey);
     console.log(`Background refresh completed for ${cacheKey}`);
   } catch (error) {
     console.error("Background refresh failed:", error);
@@ -165,7 +166,7 @@ async function refreshCacheInBackground(userId: string, cursor: string | null, p
 }
 
 // Simplified fast post fetching function
-async function getFastPosts(userId: string, cursor: string | null, pageSize: number, cacheKey: string): Promise<PostsPage> {
+async function getFastPosts(userId: string, page: number, pageSize: number, cacheKey: string): Promise<PostsPage> {
   try {
     // Clear any potential cached data for this key
     delete postsCache[cacheKey];
@@ -209,37 +210,54 @@ async function getFastPosts(userId: string, cursor: string | null, pageSize: num
 
     console.log(`DEBUG: Executing raw query to get ALL posts`);
 
-    // Run with a strict timeout, but get ALL posts
+    // Run with a strict timeout, but get ALL posts using raw SQL for randomization
     const posts = await Promise.race([
-      prisma.post.findMany({
-        // No where clause to start with - get everything
-        include: simpleInclude,
-        orderBy: { createdAt: "desc" },
-        take: pageSize + 1,
-        cursor: cursor ? { id: cursor } : undefined,
-      }),
+      prisma.$queryRaw`
+        SELECT p.*, 
+               u.id as "userId", 
+               u.username as "userName", 
+               u.displayName as "userDisplayName", 
+               u.avatarUrl as "userAvatarUrl" 
+        FROM "Post" p
+        JOIN "User" u ON p."userId" = u.id
+        ORDER BY RANDOM()
+        LIMIT ${pageSize}
+        OFFSET ${(page - 1) * pageSize}
+      `,
       createTimeoutPromise(QUERY_TIMEOUT)
     ]) as any[];
 
     console.log(`DEBUG: Raw query returned ${posts.length} posts`);
     
-    // Log some details about posts we found
-    if (posts.length > 0) {
-      const userIds = [...new Set(posts.map(p => p.userId))];
-      console.log(`DEBUG: Posts belong to ${userIds.length} unique users`);
-      console.log(`DEBUG: User IDs of first few posts: ${posts.slice(0, 3).map(p => p.userId.substring(0, 8))}`);
-    }
-
-    // Determine if there's a next page
-    const nextCursor = posts.length > pageSize ? posts[pageSize].id : null;
+    // Format posts to match the expected structure
+    const formattedPosts = posts.map(post => ({
+      ...post,
+      user: {
+        id: post.userId,
+        username: post.userName,
+        displayName: post.userDisplayName,
+        avatarUrl: post.userAvatarUrl
+      },
+      likes: [],
+      bookmarks: [],
+      attachments: [],
+      _count: {
+        likes: 0,
+        comments: 0
+      }
+    }));
     
     // Process posts to ensure correct media URLs
-    const processedPosts = ensureCorrectMediaUrls(posts.slice(0, pageSize));
+    const processedPosts = ensureCorrectMediaUrls(formattedPosts);
     
-    // Prepare the result
+    // Determine next cursor - now using page numbers
+    // For random posts, we'll always have a next page unless we got fewer posts than requested
+    const hasNextPage = processedPosts.length >= pageSize;
+    
+    // Prepare the result with next page info
     const result = {
       posts: processedPosts,
-      nextCursor,
+      nextCursor: hasNextPage ? `${page + 1}` : null,
     };
 
     // Update cache
@@ -256,48 +274,52 @@ async function getFastPosts(userId: string, cursor: string | null, pageSize: num
 }
 
 // Extremely simplified fallback for when the main query times out
-async function getFallbackPosts(userId: string, cursor: string | null, pageSize: number): Promise<PostsPage> {
+async function getFallbackPosts(userId: string, page: number, pageSize: number): Promise<PostsPage> {
   try {
     console.log(`DEBUG: Starting fallback post fetch for user ${userId.substring(0, 8)}`);
     
-    // Ultra-minimal include with no relations
-    const minimalInclude = {
-      user: {
-        select: {
-          id: true,
-          username: true,
-          displayName: true,
-          avatarUrl: true
-        }
-      }
-    };
+    // Get the date 7 days ago
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
-    // Run with an extended timeout, but absolutely minimal query
+    // Run with an extended timeout, but using raw SQL for randomization
     const posts = await Promise.race([
-      prisma.post.findMany({
-        where: {
-          // Only get posts from the last 7 days to reduce query complexity
-          createdAt: {
-            gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-          }
-        },
-        include: minimalInclude,
-        orderBy: { createdAt: "desc" },
-        take: pageSize + 1,
-        cursor: cursor ? { id: cursor } : undefined,
-      }),
+      prisma.$queryRaw`
+        SELECT p.*, 
+               u.id as "userId", 
+               u.username as "userName", 
+               u.displayName as "userDisplayName", 
+               u.avatarUrl as "userAvatarUrl" 
+        FROM "Post" p
+        JOIN "User" u ON p."userId" = u.id
+        WHERE p."createdAt" >= ${sevenDaysAgo}::timestamp
+        ORDER BY RANDOM()
+        LIMIT ${pageSize}
+        OFFSET ${(page - 1) * pageSize}
+      `,
       createTimeoutPromise(QUERY_TIMEOUT * 1.5) // Give it 50% more time
     ]) as any[];
 
     console.log(`DEBUG: Fallback query returned ${posts.length} posts`);
     
-    // Determine if there's a next page
-    const nextCursor = posts.length > pageSize ? posts[pageSize].id : null;
+    // Format posts to match the expected structure
+    const formattedPosts = posts.map(post => ({
+      ...post,
+      user: {
+        id: post.userId,
+        username: post.userName,
+        displayName: post.userDisplayName,
+        avatarUrl: post.userAvatarUrl
+      }
+    }));
+    
+    // Determine if there's a next page - for random posts, we'll always have a next page
+    // unless we got fewer posts than requested
+    const hasNextPage = formattedPosts.length >= pageSize;
     
     // Return the simplified posts
     return {
-      posts: posts.slice(0, pageSize),
-      nextCursor,
+      posts: formattedPosts,
+      nextCursor: hasNextPage ? `${page + 1}` : null,
     };
   } catch (error) {
     console.error("Error in fallback post fetch:", error);

@@ -90,11 +90,19 @@ function ForYouFeed() {
         // Add the x-client-auth header if this is a fresh session (< 5 seconds old)
         const isFreshLogin = sessionAge < 5000;
         
+        // For randomized feed, add a cache-busting timestamp for each page request
+        const timestamp = Date.now();
+        
         const response = await kyInstance
           .get(
             "/api/posts/for-you",
             {
-              ...(pageParam ? { searchParams: { cursor: pageParam } } : {}),
+              // Add a random parameter to ensure we get different posts each time
+              searchParams: { 
+                random: timestamp,
+                // For randomized feed, we're not using cursor-based pagination anymore
+                ...(pageParam ? { page: pageParam } : {}) 
+              },
               timeout: 30000,
               retry: {
                 limit: 3,
@@ -146,8 +154,12 @@ function ForYouFeed() {
         };
       }
     },
-    initialPageParam: null as string | null,
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    initialPageParam: 1, // Start with page 1
+    getNextPageParam: (lastPage, allPages) => {
+      // Since we're using randomized posts, we'll use page numbers instead of cursors
+      // Only return the next page if we actually got posts in the last request
+      return lastPage.posts.length > 0 ? allPages.length + 1 : undefined;
+    },
     staleTime: 60 * 1000,
     gcTime: 5 * 60 * 1000,
     refetchOnWindowFocus: true,
@@ -205,7 +217,11 @@ function ForYouFeed() {
   const isEmpty = posts.length === 0 && !isFetching && !hasNextPage;
 
   const handleRetry = () => {
+    // Increment the retry count to force a data refresh
     setRetryCount(prev => prev + 1);
+    
+    // Clear the existing query data to force a fresh fetch
+    // This ensures we get completely new random posts
     refetch();
   };
 
@@ -242,6 +258,20 @@ function ForYouFeed() {
           </AlertDescription>
         </Alert>
       )}
+
+      {/* Refresh button for random posts */}
+      <div className="flex justify-center mb-2">
+        <Button 
+          onClick={handleRetry} 
+          variant="outline" 
+          size="sm"
+          className="w-full sm:w-auto"
+          disabled={isFetching}
+        >
+          <RefreshCw className={`w-4 h-4 mr-2 ${isFetching ? 'animate-spin' : ''}`} /> 
+          {isFetching ? 'Refreshing...' : 'Get New Random Posts'}
+        </Button>
+      </div>
 
       <InfiniteScrollContainer
         className="space-y-5"
